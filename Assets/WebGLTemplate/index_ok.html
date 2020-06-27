@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>%UNITY_WEB_NAME%</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="styles/screen.css?%BUILD_TIMESTAMP%"
+        />
+        <script
+            src="https://browser.sentry-cdn.com/5.16.1/bundle.min.js"
+            integrity="sha384-XeIbINcUQP10HtmVHwZigannjNDpoQRe+uhAoW9J5HU5dHFpilP164LjqO78xtIB"
+            crossorigin="anonymous"
+            defer
+        ></script>
+        <script src="//api.ok.ru/js/fapi5.js" defer></script>
+        <script src="scripts/OKPlatform.js?%BUILD_TIMESTAMP%" defer></script>
+        <script src="scripts/utils.js?%BUILD_TIMESTAMP%" defer></script>
+        <script src="%UNITY_WEBGL_LOADER_URL%" defer></script>
+        <script>
+            window.addEventListener("DOMContentLoaded", function () {
+                Sentry.init({
+                    dsn:
+                        "https://4e9c5b7b36684ad7ae06603162779e9a@o88727.ingest.sentry.io/1545550",
+                });
+
+                var gameInstance = UnityLoader.instantiate(
+                    "application-container",
+                    "%UNITY_WEBGL_BUILD_URL%",
+                    { onProgress: unityProgress, popup: unityPopup }
+                );
+            });
+        </script>
+    </head>
+    <body>
+        <div class="page-wrapper">
+            <div class="game-logo game-logo_ru"></div>
+            <div class="main-menu">
+                <span class="main-menu__item main-menu__item_active">
+                    Игра
+                </span>
+                <a
+                    class="main-menu__item"
+                    href="//ok.ru/group/56993044430983/topic/151686192269447"
+                    target="_blank"
+                >
+                    Поддержка
+                </a>
+                <a
+                    class="main-menu__item"
+                    href="//ok.ru/group/56993044430983"
+                    target="_blank"
+                >
+                    Сообщество
+                </a>
+            </div>
+            <div class="application-wrapper">
+                <div
+                    class="application-container"
+                    id="application-container"
+                ></div>
+
+                <div class="prepreloader">
+                    <div class="prepreloader__logo"></div>
+                    <div class="prepreloader__loading-label">
+                        Идет загрузка..
+                    </div>
+                    <div class="prepreloader__progress-bar">
+                        <div class="prepreloader__progress-handle"></div>
+                    </div>
+                    <div class="prepreloader__no-close-label">
+                        Не закрывайте страницу
+                    </div>
+                </div>
+
+                <div class="another-tab-warning">
+                    <div class="another-tab-warning__label">
+                        Вы открыли игру в другой вкладке. <br />
+                        Пожалуйста, перезагрузите страницу.
+                    </div>
+                </div>
+
+                <div class="popups-container"></div>
+            </div>
+        </div>
+    </body>
+
+    <!-- Facebook Pixel Code -->
+    <!-- prettier-ignore -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '560394594867276');
+        fbq('track', 'PageView');
+    </script>
+    <!-- prettier-ignore -->
+    <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=560394594867276&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Facebook Pixel Code -->
+</html>

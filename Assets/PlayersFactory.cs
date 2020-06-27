@@ -16,6 +16,7 @@ public class PlayersFactory : MonoBehaviour
         foreach (var data in playersData)
         {
             var playerView = Instantiate(_playerCellPrefab, _parent);
+            playerView.Initialize(data.Key,data.Value);
             playerView.transform.localScale = Vector3.one;
         }
     }

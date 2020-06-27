@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>%UNITY_WEB_NAME%</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="styles/frame.css?%BUILD_TIMESTAMP%"
+        />
+        <script
+            src="https://browser.sentry-cdn.com/5.16.1/bundle.min.js"
+            integrity="sha384-XeIbINcUQP10HtmVHwZigannjNDpoQRe+uhAoW9J5HU5dHFpilP164LjqO78xtIB"
+            crossorigin="anonymous"
+            defer
+        ></script>
+        <script src="scripts/FSPlatform.js?%BUILD_TIMESTAMP%" defer></script>
+        <script src="scripts/utils.js?%BUILD_TIMESTAMP%" defer></script>
+        <script src="%UNITY_WEBGL_LOADER_URL%" defer></script>
+        <script>
+            window.addEventListener("DOMContentLoaded", function () {
+                Sentry.init({
+                    dsn:
+                        "https://4e9c5b7b36684ad7ae06603162779e9a@o88727.ingest.sentry.io/1545550",
+                });
+
+                var gameInstance = UnityLoader.instantiate(
+                    "application-container",
+                    "%UNITY_WEBGL_BUILD_URL%",
+                    { onProgress: unityProgress, popup: unityPopup }
+                );
+            });
+        </script>
+    </head>
+    <body>
+        <div class="page-wrapper">
+            <div class="game-logo game-logo_ru"></div>
+            <div class="main-menu">
+                <span class="main-menu__item main-menu__item_active">
+                    Игра
+                </span>
+                <a
+                    class="main-menu__item"
+                    href="//fotostrana.ru/public/352393/"
+                    target="_blank"
+                >
+                    Поддержка
+                </a>
+                <a
+                    class="main-menu__item"
+                    href="//fotostrana.ru/public/352393/"
+                    target="_blank"
+                >
+                    Сообщество
+                </a>
+            </div>
+            <div class="application-wrapper">
+                <div
+                    class="application-container"
+                    id="application-container"
+                ></div>
+
+                <div class="prepreloader">
+                    <div class="prepreloader__logo"></div>
+                    <div class="prepreloader__loading-label">
+                        Идет загрузка..
+                    </div>
+                    <div class="prepreloader__progress-bar">
+                        <div class="prepreloader__progress-handle"></div>
+                    </div>
+                    <div class="prepreloader__no-close-label">
+                        Не закрывайте страницу
+                    </div>
+                </div>
+
+                <div class="another-tab-warning">
+                    <div class="another-tab-warning__label">
+                        Вы открыли игру в другой вкладке. <br />
+                        Пожалуйста, перезагрузите страницу.
+                    </div>
+                </div>
+
+                <div class="popups-container"></div>
+            </div>
+        </div>
+    </body>
+</html>
