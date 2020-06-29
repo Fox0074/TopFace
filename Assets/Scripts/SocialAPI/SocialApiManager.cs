@@ -13,6 +13,9 @@ namespace HappyGames.SocialAPI
         public event Action<SocialProfile> UserProfileLoaded = delegate { };
         public event Action<string> UserProfileLoadingFailed = delegate { };
 
+        public event Action<string> UserFriendsLoadingFailed = delegate { };
+        public event Action<string> UserFriendsLoading = delegate { };
+
         public bool Initialized { get; private set; }
         public int ApiType { get; private set; }
         public string ApiUid { get; private set; }
@@ -46,6 +49,11 @@ namespace HappyGames.SocialAPI
         public void LoadUserProfile()
         {
             _bridge.LoadUserProfile();
+        }
+
+        public void LoadUserFriends()
+        {
+             _bridge.GetUserFriends();
         }
 
         internal void OnSocialAPIInitialized()
@@ -87,6 +95,16 @@ namespace HappyGames.SocialAPI
         internal void OnUserProfileLoaded(SocialProfile profile)
         {
             UserProfileLoaded(profile);
+        }
+
+        internal void OnUserFriendsLoading(string data)
+        {
+            UserFriendsLoading(data);
+        }
+
+        internal void OnUserFriendsLoadingFailed(string data)
+        {
+            UserFriendsLoadingFailed(data);
         }
 
         internal void OnUserProfileLoadingFailed(string error)

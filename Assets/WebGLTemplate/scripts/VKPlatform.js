@@ -60,6 +60,11 @@ VKPlatform.prototype.getDefaultLocale = function () {
     return "ru";
 };
 
+
+VKPlatform.prototype.getUserFriends = function (onSuccess, onFailure) {
+        VK.Api.call("friends.get",function(data) {onSuccess(data)}, function(data) { onFailure(data)});
+};
+
 VKPlatform.prototype.buyProduct = function (
     productId,
     _productTitle,

@@ -7,28 +7,18 @@
         <link
             rel="stylesheet"
             type="text/css"
-            href="styles/frame.css?%BUILD_TIMESTAMP%"
+            href="styles/frame.css"
         />
-        <script
-            src="https://browser.sentry-cdn.com/5.16.1/bundle.min.js"
-            integrity="sha384-XeIbINcUQP10HtmVHwZigannjNDpoQRe+uhAoW9J5HU5dHFpilP164LjqO78xtIB"
-            crossorigin="anonymous"
-            defer
-        ></script>
         <script src="//vk.com/js/api/xd_connection.js?2" defer></script>
-        <script src="scripts/VKPlatform.js?%BUILD_TIMESTAMP%" defer></script>
-        <script src="scripts/utils.js?%BUILD_TIMESTAMP%" defer></script>
-        <script src="%UNITY_WEBGL_LOADER_URL%" defer></script>
+        <script src="scripts/VKPlatform.js" defer></script>
+        <script src="scripts/utils.js" defer></script>
+        <script src="TemplateData/UnityProgress.js"></script>
+        <script src="Build/UnityLoader.js"></script>
         <script>
             window.addEventListener("DOMContentLoaded", function () {
-                Sentry.init({
-                    dsn:
-                        "https://4e9c5b7b36684ad7ae06603162779e9a@o88727.ingest.sentry.io/1545550",
-                });
-
                 var gameInstance = UnityLoader.instantiate(
                     "application-container",
-                    "%UNITY_WEBGL_BUILD_URL%",
+                    "Build/Build.json",
                     { onProgress: unityProgress, popup: unityPopup }
                 );
             });
@@ -43,14 +33,14 @@
                 </span>
                 <a
                     class="main-menu__item"
-                    href="//vk.com/topic-195704460_41738700"
+                    href="//vk.com/fizerator"
                     target="_blank"
                 >
                     Поддержка
                 </a>
                 <a
                     class="main-menu__item"
-                    href="//vk.com/diffpublic"
+                    href="//vk.com/fizerator"
                     target="_blank"
                 >
                     Сообщество
@@ -86,24 +76,4 @@
             </div>
         </div>
     </body>
-
-    <!-- Facebook Pixel Code -->
-    <!-- prettier-ignore -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '871473476665845');
-        fbq('track', 'PageView');
-    </script>
-    <!-- prettier-ignore -->
-    <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=871473476665845&ev=PageView&noscript=1"
-        /></noscript>
-    <!-- End Facebook Pixel Code -->
 </html>

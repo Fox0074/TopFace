@@ -87,6 +87,20 @@ var SocialAPILib = {
             );
         },
 
+        getUserFriends: function (successMethodName, failureMethodName) {
+            this.platform.getUserFriends(
+                function (profile) {
+                    SocialAPI.sendMessage(
+                        successMethodName,
+                        JSON.stringify(profile)
+                    );
+                },
+                function (error) {
+                    SocialAPI.sendMessage(failureMethodName, String(error));
+                }
+            );
+        },
+
         sendMessage: function (method, value) {
             if (typeof value === "undefined") {
                 SendMessage("SocialAPIJSBridge", method);
@@ -149,6 +163,13 @@ var SocialAPILib = {
 
     loadSocialUserProfile: function (successMethodName, failureMethodName) {
         SocialAPI.loadUserProfile(
+            Pointer_stringify(successMethodName),
+            Pointer_stringify(failureMethodName)
+        );
+    },
+
+    getUserFriends: function (successMethodName, failureMethodName) {
+        SocialAPI.getUserFriends(
             Pointer_stringify(successMethodName),
             Pointer_stringify(failureMethodName)
         );

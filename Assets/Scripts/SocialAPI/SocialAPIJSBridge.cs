@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using Newtonsoft;
+using Newtonsoft.Json;
 
 namespace HappyGames.SocialAPI
 {
@@ -19,7 +21,7 @@ namespace HappyGames.SocialAPI
             try
             {
                 var json = getSocialAuthFields();
-                //return JsonConvert.DeserializeObject<SocialAuthFields>(json, SocialJSBridgeJsonConverter.Settings);
+                return JsonConvert.DeserializeObject<SocialAuthFields>(json, SocialJSBridgeJsonConverter.Settings);
                 return null;
             }
             catch (Exception e)
@@ -57,6 +59,22 @@ namespace HappyGames.SocialAPI
             loadSocialUserProfile("OnUserProfileLoaded", "OnUserProfileLoadingFailed");
         }
 
+        public void GetUserFriends()
+        {
+            getUserFriends("OnUserFriendsLoaded", "OnUserFriendsLoadedFailed");
+        }
+
+        internal void OnUserFriendsLoaded(string profileData)
+        {
+            Manager.OnUserFriendsLoading(profileData);
+        }
+
+        internal void OnUserFriendsLoadedFailed(string profileData)
+        {
+            Manager.OnUserFriendsLoadingFailed(profileData);
+        }
+
+
         [DllImport("__Internal")]
         private static extern void initializeSocialAPI(string onSuccess, string onFailure);
 
@@ -75,6 +93,9 @@ namespace HappyGames.SocialAPI
 
         [DllImport("__Internal")]
         private static extern void loadSocialUserProfile(string onSuccess, string onFailure);
+
+        [DllImport("__Internal")]
+        private static extern void getUserFriends(string onSuccess, string onFailure);
 #else
         public void Initialize()
         {
@@ -105,6 +126,11 @@ namespace HappyGames.SocialAPI
         public void BuyProduct(string productId, SocialPurchaseData purchaseData)
         {
             Manager.OnProductPurchaseFailed(productId, "Not support");
+        }
+
+        public void GetUserFriends()
+        {
+            Manager.OnUserFriendsLoadingFailed("Error");
         }
 
         public void LoadUserProfile()
@@ -159,8 +185,8 @@ namespace HappyGames.SocialAPI
         {
             try
             {
-                //var profile = JsonConvert.DeserializeObject<SocialProfile>(profileData, SocialJSBridgeJsonConverter.Settings);
-                //Manager.OnUserProfileLoaded(profile);
+                var profile = JsonConvert.DeserializeObject<SocialProfile>(profileData, SocialJSBridgeJsonConverter.Settings);
+                Manager.OnUserProfileLoaded(profile);
             }
             catch
             {
