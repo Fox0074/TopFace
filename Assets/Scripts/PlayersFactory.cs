@@ -16,15 +16,15 @@ public class PlayersFactory : MonoBehaviour
         foreach (var data in playersData)
         {
             var playerView = Instantiate(_playerCellPrefab, _parent);
-            playerView.Initialize(data.Value, data.Key.UserName);
+            playerView.Initialize(data.Value, data.Key.UserName, data.Key.Donate.ToString());
             playerView.transform.localScale = Vector3.one;
         }
     }
 
-    public void AddPlayer(Sprite avatar, string name)
+    public void AddPlayer(User user, Sprite avatar)
     {
         var playerView = Instantiate(_playerCellPrefab, _parent);
-        playerView.Initialize(avatar, name);
+        playerView.Initialize(avatar, name, user.Donate.ToString());
         playerView.transform.localScale = Vector3.one;
     }
 }

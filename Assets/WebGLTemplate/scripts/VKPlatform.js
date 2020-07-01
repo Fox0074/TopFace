@@ -62,7 +62,14 @@ VKPlatform.prototype.getDefaultLocale = function () {
 
 
 VKPlatform.prototype.getUserFriends = function (onSuccess, onFailure) {
-        VK.Api.call("friends.get",function(data) {onSuccess(data)}, function(data) { onFailure(data)});
+    VK.api("friends.get", {test_mode : 1 , fields : ["photo_200"]},
+    function(data) 
+    {
+        if (data.response == "error")
+            onFailure(data.response);
+        else 
+            onSuccess(data.response.items)
+    });
 };
 
 VKPlatform.prototype.buyProduct = function (
@@ -93,6 +100,7 @@ VKPlatform.prototype.loadUserProfile = function (onSuccess, onFailure) {
                 : userData["photo_200"];
 
         onSuccess({
+            id : userData["id"],
             firstName: userData["first_name"],
             lastName: userData["last_name"],
             avatar: avatar,

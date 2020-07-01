@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using Newtonsoft;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace HappyGames.SocialAPI
 {
@@ -130,13 +132,20 @@ namespace HappyGames.SocialAPI
 
         public void GetUserFriends()
         {
-            Manager.OnUserFriendsLoadingFailed("Error");
+            List<VkUserData> testData = new List<VkUserData>();
+            testData.Add(new VkUserData() {
+                    id = "testUser" ,
+                    first_name = "Happy",
+                    last_name = "User"
+                    });
+            Manager.OnUserFriendsLoadingFailed(JsonConvert.SerializeObject(testData.ToArray()));
         }
 
         public void LoadUserProfile()
         {
             Manager.OnUserProfileLoaded(new SocialProfile
             {
+                Id = "1234567890",
                 FirstName = "User",
                 LastName = "Happy",
                 Avatar = "",
@@ -159,8 +168,8 @@ namespace HappyGames.SocialAPI
         {
             try
             {
-                //var obj = JObject.Parse(data);
-                //Manager.OnProductPurchased((string)obj["productId"], (string)obj["transactionId"]);
+                var obj = JObject.Parse(data);
+                Manager.OnProductPurchased((string)obj["productId"], (string)obj["transactionId"]);
             }
             catch (Exception e)
             {
@@ -172,8 +181,8 @@ namespace HappyGames.SocialAPI
         {
             try
             {
-                //var obj = JObject.Parse(data);
-                //Manager.OnProductPurchaseFailed((string)obj["productId"], (string)obj["error"]);
+                var obj = JObject.Parse(data);
+                Manager.OnProductPurchaseFailed((string)obj["productId"], (string)obj["error"]);
             }
             catch (Exception e)
             {

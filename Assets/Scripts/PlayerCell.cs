@@ -11,9 +11,13 @@ public class PlayerCell : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _playerName;
 
-    public void Initialize(Sprite avatarSprite, string playerName)
+    [SerializeField]
+    private TextMeshProUGUI _donateView;
+
+    public void Initialize(Sprite avatarSprite, string playerName, string donate)
     {
         _avatarImage.sprite = avatarSprite;
         _playerName.text = playerName;
+        _donateView.text = "V " + donate;
     }
 }

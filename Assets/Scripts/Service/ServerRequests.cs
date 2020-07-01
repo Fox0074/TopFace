@@ -14,14 +14,25 @@ namespace FizreFox.Server
                 await request.SendWebRequest();
 
                 if (!request.isHttpError && !request.isNetworkError)
-                    onSuccess.Invoke(request.downloadHandler.text); 
+                    onSuccess?.Invoke(request.downloadHandler.text); 
                 else 
-                    onError.Invoke();
+                    onError?.Invoke();
         }
 
         public static void GetAllUsers(Action<string> onSuccess, Action onError)
         {
             SendRequset(ServerAPIUrl + "?RequestType=GetAllUsersData", onSuccess, onError);
+        }
+
+        public static void UpdateUserInfo(User user, Action<string> onSuccess, Action onError)
+        {
+            var userJson = JsonConvert.SerializeObject(user);
+            SendRequset(ServerAPIUrl + "?RequestType=UpdateUser&UserData=" + userJson, onSuccess, onError);
+        }
+
+        public static void SuccessProductBuy(User user, string donateValue)
+        {
+            SendRequset(ServerAPIUrl + "?RequestType=AddDonate&UserId=" + user.UserId + "&Donate=" + donateValue, null, null);
         }
     }
 }
