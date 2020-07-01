@@ -3,6 +3,7 @@
 [Serializable]
 public class User
 {
+    public Action DataUpdated = delegate { };
     public string UserId { get; set; }
     public string UserName { get; set; } = "";
     public float Donate { get; set; }

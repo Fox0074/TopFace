@@ -11,9 +11,9 @@ namespace FizreFox
 {
     public class GameManager : MonoBehaviour
     {
-        private static Dictionary<string, Sprite> _cache = new Dictionary<string, Sprite>();
         public static GameManager Current { get; private set;}
-        public User CurrentUser;
+
+        public static UsersManager UsersManager {get; private set;}
 
         public SocialAPIManager SocialAPIManager;
 
@@ -23,12 +23,17 @@ namespace FizreFox
         [SerializeField]
         private SocialAPIJSBridge _socialAPIJSBridge;
 
+        [SerializeField]
+        private Sprite _noAvatarSprite;
+
         void Awake()
         {
+            NetworkImage.AddToCahe("noAvatar", _noAvatarSprite);
+            UsersManager = new UsersManager();
             Current = this;
             SocialAPIManager = new SocialAPIManager(_socialAPIJSBridge);
             SocialAPIManager.Initialize();
-            SocialAPIManager.UserProfileLoaded += (x) => StartCoroutine(OnPlayerDataLoaded(x));
+            SocialAPIManager.UserProfileLoaded += (x) => OnPlayerDataLoaded(x);
             SocialAPIManager.UserProfileLoadingFailed += (x) => Debug.Log("UserProfileLoadingFailed");
             SocialAPIManager.LoadUserProfile();
             SocialAPIManager.UserFriendsLoading += OnUserFriendsLoaded;
@@ -43,90 +48,85 @@ namespace FizreFox
 
         private void OnProductPurchased(string productId, string trransactionId)
         {
-            CurrentUser.Donate += float.Parse(productId);
-            ServerRequests.SuccessProductBuy(CurrentUser, productId);
+            UsersManager.CurrentUser.Donate += float.Parse(productId);
+            ServerRequests.SuccessProductBuy(UsersManager.CurrentUser, productId);
+            UsersManager.CurrentUser.DataUpdated.Invoke();
         }
-
         private void OnProductPurchasedFail(string productId, string trransactionId)
         {
             Debug.Log("OnProductPurchasedFail");
         }
         private void OnUserFriendsLoaded(string data)
         {
-            List<User> users = JsonConvert.DeserializeObject<VkUserData[]>(data).Select(u => u.ConvertToUser()).ToList();
-            users.Remove(CurrentUser);
-            users.RemoveAll(x => x.UserName == "DELETED" || string.IsNullOrEmpty(x.Avatar));
-            StartCoroutine(LoadingData(users.ToArray()));
+            List<User> friendsUsers = JsonConvert.DeserializeObject<VkUserData[]>(data).Select(u => u.ConvertToUser()).ToList();
+            friendsUsers.RemoveAll(x => x.UserName.ToLower() == "deleted ");
+            friendsUsers.Where(x => 
+            string.IsNullOrEmpty(x.Avatar) || 
+            x.Avatar == "https://vk.com/images/deactivated_200.png" || 
+            x.Avatar == "https://vk.com/images/camera_200.png?ava=1").ToList().ForEach(x => x.Avatar = "noAvatar");
+            UsersManager.FriendsUsers = friendsUsers;
+
+            if (UsersManager.FriendsUsers.Count > 0)  
+            {
+                StartCoroutine(NetworkImage.TryLoadTexturesToCache(friendsUsers.Select(x => x.Avatar).ToArray()));
+                ServerRequests.GetUsersData(friendsUsers, UpdateUsersData, () => Debug.Log("GetUsersData Fail"));
+            }
+
         }
         private void GetAllUsersCallBack(string responce)
         {
-            List<User> users = JsonConvert.DeserializeObject<User[]>(responce).ToList();
-            users.Remove(CurrentUser);
-            users.RemoveAll(x => x.UserName == "DELETED" || string.IsNullOrEmpty(x.Avatar));
-            StartCoroutine(LoadingData(users.ToArray()));
+            List<User> bdUsers = JsonConvert.DeserializeObject<User[]>(responce).ToList();
+            bdUsers.Remove(bdUsers.FirstOrDefault(user => user.UserId == UsersManager.CurrentUser.UserId));
+            bdUsers.RemoveAll(x => x.UserName.ToLower() == "deleted ");
+
+            bdUsers.Where(x => 
+            string.IsNullOrEmpty(x.Avatar) || 
+            x.Avatar == "https://vk.com/images/deactivated_200.png" || 
+            x.Avatar == "https://vk.com/images/camera_200.png?ava=1").ToList().ForEach(x => x.Avatar = "noAvatar");
+
+            UsersManager.WorldTopUsers = bdUsers;
+
+             if (UsersManager.WorldTopUsers.Count > 0)  
+                StartCoroutine(NetworkImage.TryLoadTexturesToCache(bdUsers.Select(x => x.Avatar).ToArray()));
+
+            if (UsersManager.WorldTopUsers.Count > 0) 
+                _playersFactory.SetWorldUsers();
         }
-        private IEnumerator OnPlayerDataLoaded(SocialProfile profile)
+        private void OnPlayerDataLoaded(SocialProfile profile)
         {
             User user = new User();
             user.UserName = profile.Name;
             user.Avatar = profile.Avatar;
             user.UserId = profile.Id;
 
-            CurrentUser = user;
-            ServerRequests.UpdateUserInfo(CurrentUser, null, null);
+            UsersManager.CurrentUser = user;
+            ServerRequests.UpdateUserInfo(UsersManager.CurrentUser, null, null);
+            ServerRequests.GetUsersData(new List<User>{ UsersManager.CurrentUser}, AddUserView, () => Debug.Log("GetUsersData Fail"));
 
-            yield return TryLoadTexturesToCache(new[] { profile.Avatar });
-            _playersFactory.AddPlayer(CurrentUser, _cache.FirstOrDefault(x => x.Key == profile.Avatar).Value);
+            StartCoroutine(NetworkImage.TryLoadTexturesToCache(new[] { profile.Avatar }));
         }
-        private IEnumerator LoadingData(User[] users)
+
+        private void AddUserView(string responceData)
         {
-            List<string> imgUrls = new List<string>();
-            Dictionary<User, Sprite> playersData = new Dictionary<User, Sprite>();
-
-            foreach (var imgUrl in users)
-            {
-                if (imgUrl.Avatar.Contains("//")) imgUrls.Add(imgUrl.Avatar);
-            }
-
-            yield return TryLoadTexturesToCache(imgUrls.ToArray());
-
-            foreach (var user in users)
-                playersData.Add(user, _cache.FirstOrDefault(x => x.Key == user.Avatar).Value);
-
-            _playersFactory.Initialized(playersData);
+             List<User> responceUsers = JsonConvert.DeserializeObject<User[]>(responceData).ToList();
+              if (responceUsers.Any(x => x.UserId == UsersManager.CurrentUser.UserId)) 
+              {
+                UsersManager.CurrentUser.Donate = responceUsers.First(x => x.UserId == UsersManager.CurrentUser.UserId).Donate;
+                UsersManager.CurrentUser.DataUpdated.Invoke();
+              }
         }
-        public static IEnumerator TryLoadTexturesToCache(string[] imageURL, float waitTime = 0)
+        private void UpdateUsersData(string responceData)
         {
-            var deltaTime = 0f;
-            for (int i = 0; i < imageURL.Length; i++)
+            List<User> responceUsers = JsonConvert.DeserializeObject<User[]>(responceData).ToList();
+            if (responceUsers.Any(x => x.UserId == UsersManager.CurrentUser.UserId)) 
+                UsersManager.CurrentUser.Donate = responceUsers.First(x => x.UserId == UsersManager.CurrentUser.UserId).Donate;
+
+            foreach (var user in responceUsers)
             {
-                if (_cache.ContainsKey(imageURL[i])) continue;
-
-                using (var request = UnityWebRequestTexture.GetTexture(imageURL[i]))
-                {
-                    var response = request.SendWebRequest();
-                    if (waitTime <= 0)
-                    {
-                        yield return response;
-                    }
-                    else
-                    {
-                        while (!response.isDone || (request.isHttpError && request.isNetworkError))
-                        {
-                            deltaTime += Time.deltaTime;
-                            if (deltaTime >= waitTime) yield break;
-                            yield return null;
-                        }
-                    }
-
-                    if (!request.isHttpError && !request.isNetworkError)
-                    {
-                        var texture2d = DownloadHandlerTexture.GetContent(request);
-                        var imageSprite = Sprite.Create(texture2d, new Rect(0.0f, 0.0f, texture2d.width, texture2d.height), new Vector2(.5f, .5f), 100);
-                        _cache[imageURL[i]] = imageSprite;
-                    }
-                }
+                if (UsersManager.FriendsUsers.Any(u => u.UserId == user.UserId)) 
+                    UsersManager.FriendsUsers.First(x => x.UserId == user.UserId).Donate = user.Donate;
             }
         }
     }
 }
+               

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace FizreFox
@@ -9,6 +7,12 @@ namespace FizreFox
     {
         [SerializeField]
         private Button _button;
+
+        [SerializeField]
+        private BuyWindow _buyWindowPrefab;
+
+        [SerializeField]
+        private Transform _parentWindow;
         private void Start()
         {
             _button.onClick.AddListener(OnClick);
@@ -20,11 +24,8 @@ namespace FizreFox
         }
         private void OnClick()
         {
-            var productData = new HappyGames.SocialAPI.SocialPurchaseData();
-            productData.ProductTitle = "10 Очков";
-            productData.ProductDescription = "Купить 10 очков";
-            productData.ProductPrice = 10;
-            GameManager.Current.SocialAPIManager.BuyProduct("1", productData);
+            var buyWindow = Instantiate(_buyWindowPrefab,_parentWindow);
+            buyWindow.Initialize();
         }
     }
 }

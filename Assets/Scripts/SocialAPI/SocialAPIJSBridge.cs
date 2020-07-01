@@ -134,9 +134,10 @@ namespace HappyGames.SocialAPI
         {
             List<VkUserData> testData = new List<VkUserData>();
             testData.Add(new VkUserData() {
-                    id = "testUser" ,
-                    first_name = "Happy",
-                    last_name = "User"
+                    id = "38805122",
+                    first_name = "Эмиль",
+                    last_name = "Якупов",
+                    photo_200 = "https://sun9-4.userapi.com/c850732/v850732160/4d59f/ACnwEbGKStc.jpg?ava=1"
                     });
             Manager.OnUserFriendsLoadingFailed(JsonConvert.SerializeObject(testData.ToArray()));
         }
@@ -145,10 +146,10 @@ namespace HappyGames.SocialAPI
         {
             Manager.OnUserProfileLoaded(new SocialProfile
             {
-                Id = "1234567890",
-                FirstName = "User",
-                LastName = "Happy",
-                Avatar = "",
+                Id = "35302712",
+                FirstName = "Юрий",
+                LastName = "Хисматуллин",
+                Avatar = "https://sun9-61.userapi.com/c858524/v858524275/3cdfb/y7iFRCpEy24.jpg?ava=1",
                 Gender = SocialGender.Male
             });
         }

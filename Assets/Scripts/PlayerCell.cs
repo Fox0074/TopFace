@@ -1,23 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using TMPro;
-public class PlayerCell : MonoBehaviour
+
+namespace FizreFox
 {
-    [SerializeField]
-    private Image _avatarImage;
-
-    [SerializeField]
-    private TextMeshProUGUI _playerName;
-
-    [SerializeField]
-    private TextMeshProUGUI _donateView;
-
-    public void Initialize(Sprite avatarSprite, string playerName, string donate)
+    public class PlayerCell : MonoBehaviour
     {
-        _avatarImage.sprite = avatarSprite;
-        _playerName.text = playerName;
-        _donateView.text = "V " + donate;
+        [SerializeField]
+        private NetworkImage _avatarImage;
+
+        [SerializeField]
+        private TextMeshProUGUI _playerName;
+
+        [SerializeField]
+        private TextMeshProUGUI _donateView;
+
+        private User _user;
+        public void Initialize(User user)
+        {
+            _user = user;
+            user.DataUpdated +=  UpdateUserData;
+            UpdateUserData();
+        }
+
+        private void UpdateUserData()
+        {
+             _avatarImage.LoadImage(_user.Avatar);
+            _playerName.text = _user.UserName;
+            _donateView.text = _user.Donate.ToString();
+        }
+
+        private void OnRemove()
+        {
+            _user.DataUpdated -=  UpdateUserData;
+        }
     }
 }

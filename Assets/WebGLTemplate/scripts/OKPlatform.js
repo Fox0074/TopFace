@@ -103,6 +103,10 @@ OKPlatform.prototype.buyProduct = function (
     );
 };
 
+OKPlatform.prototype.getUserFriends = function (onSuccess, onFailure) {
+    onFailure("Error");
+};
+
 OKPlatform.prototype.loadUserProfile = function (onSuccess, onFailure) {
     FAPI.Client.call(
         {

@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FizreFox.Server
 {
@@ -17,6 +19,11 @@ namespace FizreFox.Server
                     onSuccess?.Invoke(request.downloadHandler.text); 
                 else 
                     onError?.Invoke();
+        }
+
+        public static void GetUsersData(List<User> users, Action<string> onSuccess, Action onError)
+        {
+            SendRequset(ServerAPIUrl + "?RequestType=GetUsersData&Users=" + JsonConvert.SerializeObject(users.Select(x => x.UserId).ToArray()), onSuccess, onError);
         }
 
         public static void GetAllUsers(Action<string> onSuccess, Action onError)
