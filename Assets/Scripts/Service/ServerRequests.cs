@@ -37,9 +37,9 @@ namespace FizreFox.Server
             SendRequset(ServerAPIUrl + "?RequestType=UpdateUser&UserData=" + userJson, onSuccess, onError);
         }
 
-        public static void SuccessProductBuy(User user, string donateValue)
+        public static void SuccessProductBuy(User user, string donateValue, string transactionId)
         {
-            SendRequset(ServerAPIUrl + "?RequestType=AddDonate&UserId=" + user.UserId + "&Donate=" + donateValue, null, null);
+            SendRequset(ServerAPIUrl + "?RequestType=AddDonate&UserId=" + user.UserId + "&Donate=" + donateValue + "&OrderId=" + transactionId, null, null);
         }
     }
 }
