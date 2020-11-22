@@ -1,30 +1,31 @@
 ﻿using DG.Tweening;
+using FizreFox.Game;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace FizreFox
 {
-    public class BaseBlockView : MonoBehaviour
+    public class BaseBlockView : MonoBehaviour, IPointerDownHandler
     {
         public Action OnClick = delegate { };
+        public BlockType Type;
 
         [SerializeField]
-        private Image _image;
+        protected Image _image;
 
-        [SerializeField]
-        private Button _button;
+        protected bool _interacleble;
+        protected bool _isFlying;
+        protected float _speed = 500f;
+        protected float _lifeTime = 10f;
+        protected float _flyingTime;
 
-        private bool _interacleble;
-        private bool _isFlying;
-        private float _speed = 500f;
-        private float _lifeTime = 10f;
-        private float _flyingTime;
-
-
-        public void StartFly()
+        public BaseBlockView()
+        {
+            Type = BlockType.Default;
+        }
+        public virtual void StartFly()
         {
             _isFlying = true;
             _interacleble = true;
@@ -32,24 +33,23 @@ namespace FizreFox
             _flyingTime = 0;
         }
 
-        public void StopFly()
+        public virtual void StopFly()
         {
             _isFlying = false;
         }
 
-        public void SetSpeed(float value)
+        public virtual void SetSpeed(float value)
         {
             _speed = value;
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             _interacleble = true;
-            _button.onClick.AddListener(OnButtonClick);
         }
 
 
-        private void Update()
+        protected virtual void Update()
         {
             if (_isFlying)
             {
@@ -61,7 +61,7 @@ namespace FizreFox
             }
         }
 
-        private void OnButtonClick()
+        public virtual void OnPointerDown(PointerEventData eventData)
         {
             if (_interacleble)
             {

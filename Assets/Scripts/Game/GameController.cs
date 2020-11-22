@@ -5,18 +5,27 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
-namespace FizreFox
+namespace FizreFox.Game
 {
+    public enum BlockType { Default, Long }
     [Serializable]
     public class SongModel<TK, TV>
     {
         [SerializeField] public TK Key;
         [SerializeField] public TV Value;
+        [SerializeField] public BlockType Type;
     }
 
     public class GameController : MonoBehaviour
     {
+        [SerializeField]
+        private CompleateLevelWindow _compleateLevelWindow;
+
+        [SerializeField]
+        private Transform _windowManager;
+
         [SerializeField]
         private TextMeshProUGUI _counter;
 
@@ -33,13 +42,18 @@ namespace FizreFox
         private BaseBlockView _blockPrefab;
 
         [SerializeField]
+        private LongBlockView _longBlockPrefab;
+
+        [SerializeField]
         private List<Transform> _spawners = new List<Transform>();
 
         [SerializeField]
         public List<SongModel<float, int>> _songModel = new List<SongModel<float, int>>();
 
         private List<BaseBlockView> _fallingObjects = new List<BaseBlockView>();
+        private CompleateLevelWindow _currentCompleateLevelWindow;
         private int _score;
+        private bool _isPlaying;
 
         void Start()
         {
@@ -53,10 +67,12 @@ namespace FizreFox
 
         private void StartGame()
         {
+            _isPlaying = true;
             _audioSource.clip = _mainClip;
             _audioSource.Play();
-            _startButton.GetComponent<Image>().DOFade(0,1f);
+            _startButton.GetComponent<Image>().DOFade(0, 1f);
 
+            StartCoroutine(WaitSongRoutine(_mainClip.length));
             StartCoroutine(PlaySongRoutine());
         }
 
@@ -67,15 +83,23 @@ namespace FizreFox
             {
                 yield return new WaitForSeconds(point.Key - lastPoint);
                 lastPoint = point.Key;
-                InsertBlock(point.Value);
+                InsertBlock(point.Value, point.Type);
             }
         }
 
-        private void InsertBlock(int track)
+        private IEnumerator WaitSongRoutine(float clipTime)
+        {
+            yield return new WaitForSeconds(clipTime);
+
+            if (_isPlaying)
+                CompleateLevel(true);
+        }
+
+        private void InsertBlock(int track, BlockType type)
         {
             if (_fallingObjects.Count > 20)
             {
-                var pulledBlock = _fallingObjects[0];
+                var pulledBlock = _fallingObjects.FirstOrDefault(x => x.Type == type);
                 _fallingObjects.Remove(pulledBlock);
                 pulledBlock.StopFly();
                 pulledBlock.transform.SetParent(_spawners[track]);
@@ -85,7 +109,11 @@ namespace FizreFox
             }
             else
             {
-                var newBlock = Instantiate(_blockPrefab, _spawners[track]);
+                var newBlock = Instantiate(type == BlockType.Default ? _blockPrefab : _longBlockPrefab, _spawners[track]);
+
+                if (type == BlockType.Long)
+                    newBlock.Type = BlockType.Long;
+
                 newBlock.transform.localPosition = Vector3.zero;
                 newBlock.StartFly();
                 newBlock.OnClick += UpdateCounter;
@@ -97,6 +125,30 @@ namespace FizreFox
         {
             _score++;
             _counter.text = _score.ToString();
+        }
+
+        private void CompleateLevel(bool isWin)
+        {
+            _isPlaying = false;
+            if (isWin)
+            {
+                _counter.gameObject.SetActive(false);
+                _currentCompleateLevelWindow = Instantiate(_compleateLevelWindow, _windowManager);
+                _currentCompleateLevelWindow.Initialize(_score / 53, "Baby Shark", _score);
+                _currentCompleateLevelWindow.OnRestart += RestartGame;
+            }
+        }
+
+        private void RestartGame()
+        {
+            _currentCompleateLevelWindow.OnRestart -= RestartGame;
+            _currentCompleateLevelWindow.Close();
+            _score = 0;
+            _counter.gameObject.SetActive(true);
+            _counter.text = _score.ToString();
+            _fallingObjects.ForEach(x => Destroy(x.gameObject));
+            _fallingObjects.Clear();
+            StartGame();
         }
     }
 }
