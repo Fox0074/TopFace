@@ -1,51 +1,55 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Lobby.SongTape;
 
-// TODO scrolls manager
-public class SongScrollController : MonoBehaviour 
+namespace FizreFox.Meta
 {
-	private List<SongScrollView> _songViews = new List<SongScrollView>(); // TODO remove me?
-	private SongScrollFactory _songsFactory;
-
-	public void AddSong(SongScrollModel model)
+	// TODO scrolls manager
+	public class SongScrollController : MonoBehaviour
 	{
-		SongScrollView view = _songsFactory.Create(model);
-		_songViews.Add(view);
-		view.transform.parent = transform;
-	}
+		[SerializeField]
+		private Transform _songViewParent;
 
-	private void Start()
-	{
-		_songsFactory = GetComponent<SongScrollFactory>();
+		private List<SongScrollView> _songViews = new List<SongScrollView>(); // TODO remove me?
+		private SongScrollFactory _songsFactory;
 
-		// REMOVE ME
-		AddSong(new SongScrollModel
+		public void AddSong(SongScrollModel model)
 		{
-			title = "I'm song title",
-			author = "Author",
-			currentPoints = 0,
-			progress = 0,
-			difficulty = Assets.Scripts.Models.Difficulty.Easy,
-		});
+			var view = _songsFactory.Create(model);
+			_songViews.Add(view);
+			view.transform.parent = _songViewParent;
+		}
 
-		AddSong(new SongScrollModel
+		private void Start()
 		{
-			title = "I'm song title",
-			author = "Author",
-			currentPoints = 0,
-			progress = 0,
-			difficulty = Assets.Scripts.Models.Difficulty.Easy,
-		});
+			_songsFactory = GetComponent<SongScrollFactory>();
 
-		AddSong(new SongScrollModel
-		{
-			title = "I'm song title2",
-			author = "Author2",
-			currentPoints = 3,
-			progress = 1,
-			difficulty = Assets.Scripts.Models.Difficulty.Hard,
-		});
+			// REMOVE ME
+			AddSong(new SongScrollModel
+			{
+				Title = "I'm song title",
+				Author = "Author",
+				CurrentPoints = 0,
+				Progress = 0,
+				Difficulty = SongDifficulty.Easy,
+			});
+
+			AddSong(new SongScrollModel
+			{
+				Title = "I'm song title",
+				Author = "Author",
+				CurrentPoints = 0,
+				Progress = 0,
+				Difficulty = SongDifficulty.Easy,
+			});
+
+			AddSong(new SongScrollModel
+			{
+				Title = "I'm song title2",
+				Author = "Author2",
+				CurrentPoints = 3,
+				Progress = 1,
+				Difficulty = SongDifficulty.Hard,
+			});
+		}
 	}
 }

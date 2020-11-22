@@ -1,15 +1,14 @@
-﻿using Assets.Scripts.Models;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Lobby.SongTape
+namespace FizreFox.Meta
 {
 	public class SongScrollModel
 	{
-		public string title { get; set; }
-		public string author { get; set; }
-		public int currentPoints { get; set; }
-		public byte progress { get; set; }		// TODO float?
-		public Difficulty difficulty { get; set; }	// TODO enum to float?
-		public AudioClip audioPreview { get; set; }
+		public string Title { get; set; }
+		public string Author { get; set; }
+		public int CurrentPoints { get; set; }
+		public int Progress { get; set; }
+		public SongDifficulty Difficulty { get; set; }
+		public AudioClip AudioPreview { get; set; }
 	}
 }
