@@ -619,6 +619,7 @@ MonoBehaviour:
   _currentPoints: {fileID: 3364759859376686229}
   _starProgress: {fileID: 3364759858348778384}
   _difficultyText: {fileID: 3364759858853549220}
+  _playButton: {fileID: 3364759858138963096}
 --- !u!1 &3364759858572092231
 GameObject:
   m_ObjectHideFlags: 0

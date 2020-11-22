@@ -26,12 +26,13 @@ namespace FizreFox.Meta
 			// REMOVE ME
 			AddSong(new SongScrollModel
 			{
-				Title = "I'm song title",
+				Title = "Baby Shark",
 				Author = "Author",
 				CurrentPoints = 0,
 				Progress = 0,
 				Difficulty = SongDifficulty.Easy,
-			});
+				AudioPreview = Resources.Load<AudioClip>("BabyShark")
+		});
 
 			AddSong(new SongScrollModel
 			{

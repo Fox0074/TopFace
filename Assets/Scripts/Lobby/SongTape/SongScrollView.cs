@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
+using System;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace FizreFox.Meta
 {
@@ -10,6 +13,7 @@ namespace FizreFox.Meta
 		[SerializeField] private TextMeshProUGUI _currentPoints;
 		[SerializeField] private TextMeshProUGUI _starProgress;
 		[SerializeField] private TextMeshProUGUI _difficultyText;
+		[SerializeField] private Button _playButton;
 
 		private AudioClip _audioPreview;
 
@@ -19,5 +23,12 @@ namespace FizreFox.Meta
 		public void SetProgress(int progress) => _starProgress.text = progress.ToString();
 		public void SetDifficulty(SongDifficulty difficulty) => _difficultyText.text = difficulty.ToString();
 		public void SetAudioPreview(AudioClip preview) => _audioPreview = preview;
+		private void OnPlayButtonClicked() => SceneManager.LoadScene("Game", LoadSceneMode.Single);
+
+		private void Start()
+		{
+			_playButton.onClick.AddListener(OnPlayButtonClicked);
+		}
+
 	}
 }
