@@ -1,0 +1,39 @@
+﻿using DG.Tweening;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace FizreFox.Meta
+{
+    public class ShopWindow : MonoBehaviour
+    {
+        public static Action<string> TryBuyDecoration = delegate { };
+
+        [SerializeField]
+        private Button _closeButton;
+
+        [SerializeField]
+        private List<DecorView> _decorViews = new List<DecorView>();
+
+        public void Initialize()
+        {
+            TryBuyDecoration += (x) => Close();
+            _closeButton.onClick.AddListener(Close);
+
+            GetComponent<CanvasGroup>().DOFade(1, .5f).From(0).SetEase(Ease.InOutSine);
+
+            foreach (var decorView in _decorViews)
+            {
+                var isBuy = LobbyController.PlayerDecorations.Contains(decorView.GetDecorType());
+                decorView.Initialize(350, !isBuy);
+            }
+        }
+
+        private void Close()
+        {
+            GetComponent<CanvasGroup>().DOFade(0, .5f).SetEase(Ease.InOutSine).OnComplete(() => Destroy(gameObject));
+        }
+    }
+}
