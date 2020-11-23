@@ -19,7 +19,6 @@ namespace FizreFox.Meta
 
         public void Initialize()
         {
-            TryBuyDecoration += (x) => Close();
             _closeButton.onClick.AddListener(Close);
 
             GetComponent<CanvasGroup>().DOFade(1, .5f).From(0).SetEase(Ease.InOutSine);
@@ -28,11 +27,13 @@ namespace FizreFox.Meta
             {
                 var isBuy = LobbyController.PlayerDecorations.Contains(decorView.GetDecorType());
                 decorView.Initialize(350, !isBuy);
+                decorView.BuyButtonClick += Close;
             }
         }
 
         private void Close()
         {
+            TryBuyDecoration -= (x) => Close();
             GetComponent<CanvasGroup>().DOFade(0, .5f).SetEase(Ease.InOutSine).OnComplete(() => Destroy(gameObject));
         }
     }

@@ -9,6 +9,7 @@ namespace FizreFox.Meta
     [RequireComponent(typeof(CanvasGroup))]
     public class DecorView : MonoBehaviour
     {
+        public Action BuyButtonClick = delegate { };
 
         [SerializeField]
         private string _decorType;
@@ -24,7 +25,9 @@ namespace FizreFox.Meta
 
         public void Initialize(int price, bool isLock)
         {
-            _buyButton.onClick.AddListener(() => ShopWindow.TryBuyDecoration.Invoke(_decorType));
+            _buyButton.onClick.AddListener(() => BuyButtonClick.Invoke());
+            BuyButtonClick += () => ShopWindow.TryBuyDecoration.Invoke(_decorType);
+
             _price.text = price + " <sprite name=jewel>";
             _lockView.SetActive(isLock);
             _price.gameObject.SetActive(isLock);
