@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace FizreFox.Meta
+namespace FizerFox.Meta
 {
 	// TODO scrolls manager
 	public class SongScrollController : MonoBehaviour

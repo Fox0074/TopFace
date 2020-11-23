@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FizreFox.Meta
+namespace FizerFox.Meta
 {
 	public class SongScrollModel
 	{

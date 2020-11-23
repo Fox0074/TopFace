@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace FizreFox
+namespace FizerFox
 {
     public class PlayerCell : MonoBehaviour
     {

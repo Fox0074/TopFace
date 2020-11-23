@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
-namespace FizreFox.Meta
+namespace FizerFox.Meta
 {
     public class CatMoves : MonoBehaviour, IPointerClickHandler
     {

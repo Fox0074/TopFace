@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace FizreFox
+namespace FizerFox
 {
     public class BuyProductButton : MonoBehaviour
     {

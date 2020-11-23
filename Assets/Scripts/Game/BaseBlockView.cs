@@ -1,11 +1,11 @@
 ﻿using DG.Tweening;
-using FizreFox.Game;
+using FizerFox.Game;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace FizreFox
+namespace FizerFox
 {
     public class BaseBlockView : MonoBehaviour, IPointerDownHandler
     {

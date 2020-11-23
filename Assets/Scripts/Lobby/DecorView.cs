@@ -4,7 +4,7 @@ using DG.Tweening;
 using System;
 using UnityEngine.UI;
 
-namespace FizreFox.Meta
+namespace FizerFox.Meta
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class DecorView : MonoBehaviour

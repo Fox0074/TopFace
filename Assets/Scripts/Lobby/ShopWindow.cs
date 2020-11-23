@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FizreFox.Meta
+namespace FizerFox.Meta
 {
     public class ShopWindow : MonoBehaviour
     {

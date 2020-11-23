@@ -1,9 +1,9 @@
 ﻿using DG.Tweening;
-using FizreFox.Game;
+using FizerFox.Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace FizreFox
+namespace FizerFox
 {
     public class LongBlockView : BaseBlockView, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
     {

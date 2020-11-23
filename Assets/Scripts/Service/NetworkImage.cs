@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace FizreFox
+namespace FizerFox
 {
     public class NetworkImage : Image
     {

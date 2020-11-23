@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FizreFox
+namespace FizerFox
 {
     public class UsersManager
     {

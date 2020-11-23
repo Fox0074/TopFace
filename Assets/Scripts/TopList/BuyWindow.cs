@@ -6,7 +6,7 @@ using TMPro;
 using System.Linq;
 using DG.Tweening;
 
-namespace FizreFox
+namespace FizerFox
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class BuyWindow : MonoBehaviour

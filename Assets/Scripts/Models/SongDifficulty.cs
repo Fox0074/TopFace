@@ -1,4 +1,4 @@
-﻿namespace FizreFox
+﻿namespace FizerFox
 {
 	public enum SongDifficulty
 	{

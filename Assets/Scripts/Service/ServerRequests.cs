@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FizreFox.Server
+namespace FizerFox.Server
 {
     public static class ServerRequests 
     {

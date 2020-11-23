@@ -6,8 +6,9 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using Zenject;
 
-namespace FizreFox.Game
+namespace FizerFox.Game
 {
     public enum BlockType { Default, Long }
     [Serializable]
@@ -20,6 +21,9 @@ namespace FizreFox.Game
 
     public class GameController : MonoBehaviour
     {
+        [Inject]
+        private SignalBus _signalBus;
+
         [SerializeField]
         private CompleateLevelWindow _compleateLevelWindow;
 
@@ -133,9 +137,12 @@ namespace FizreFox.Game
             if (isWin)
             {
                 _counter.gameObject.SetActive(false);
-                _currentCompleateLevelWindow = Instantiate(_compleateLevelWindow, _windowManager);
-                _currentCompleateLevelWindow.Initialize(_score / 53, "Baby Shark", _score);
-                _currentCompleateLevelWindow.OnRestart += RestartGame;
+                _signalBus.Fire(new PushWindowSignal(typeof(CompleateLevelWindow), new CompleateLevelWindowOptions()
+                {
+                    FlowersCount = _score / 53,
+                    SongName = "Baby Shark",
+                    Score = _score
+                }));
             }
         }
 

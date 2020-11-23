@@ -5,7 +5,7 @@ using TMPro;
 using System.Linq;
 using UnityEngine.UI;
 
-namespace FizreFox.Meta
+namespace FizerFox.Meta
 {
     public class LobbyController : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-namespace FizreFox.Meta
+namespace FizerFox.Meta
 {
 	public class SongScrollView : MonoBehaviour
 	{

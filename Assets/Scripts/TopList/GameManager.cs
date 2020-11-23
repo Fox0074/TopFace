@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using FizreFox.Server;
+using FizerFox.Server;
 using HappyGames.SocialAPI;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace FizreFox
+namespace FizerFox
 {
     public class GameManager : MonoBehaviour
     {

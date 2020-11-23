@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,10 +6,17 @@ using DG.Tweening;
 using UnityEngine.SceneManagement;
 using System;
 
-namespace FizreFox.Game
+namespace FizerFox.Game
 {
+    public class CompleateLevelWindowOptions : WindowOptions
+    {
+        public int FlowersCount;
+        public string SongName;
+        public int Score;
+    }
+
     [RequireComponent(typeof(CanvasGroup))]
-    public class CompleateLevelWindow : MonoBehaviour
+    public class CompleateLevelWindow : BaseWindow
     {
         public Action OnRestart = delegate { };
 
@@ -31,13 +37,15 @@ namespace FizreFox.Game
 
         private CanvasGroup _canvasGroup;
 
-        public void Initialize(int flowersCount, string songName, int score)
+        public override void Initialize(WindowOptions options)
         {
-            for (int i = 0; i < flowersCount; i++)
+            var windowOptions = options as CompleateLevelWindowOptions;
+
+            for (int i = 0; i < windowOptions.FlowersCount; i++)
                 _flowers[i].gameObject.SetActive(true);
 
-            _songName.text = songName;
-            _scoreLabel.text = score.ToString();
+            _songName.text = windowOptions.SongName;
+            _scoreLabel.text = windowOptions.Score.ToString();
         }
 
         private void Start()
@@ -46,7 +54,6 @@ namespace FizreFox.Game
             _canvasGroup.alpha = 0;
             _canvasGroup.interactable = false;
             _canvasGroup.DOFade(1,1f).SetEase(Ease.InOutSine).OnComplete(() => _canvasGroup.interactable = true);
-
             _homeButton.onClick.AddListener(OnHomeButtonClick);
             _restartButton.onClick.AddListener(OnRestartButtonClick);
         }
@@ -59,13 +66,6 @@ namespace FizreFox.Game
         private void OnRestartButtonClick()
         {
             OnRestart.Invoke();
-        }
-
-        public void Close()
-        {
-            _canvasGroup.interactable = false;
-            _canvasGroup.DOFade(0, 1f).SetEase(Ease.InOutSine);
-            Destroy(gameObject);
         }
     }
 }
