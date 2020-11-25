@@ -48,24 +48,26 @@ namespace FizerFox.Game
             _scoreLabel.text = windowOptions.Score.ToString();
         }
 
-        private void Start()
+        private void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
-            _canvasGroup.alpha = 0;
-            _canvasGroup.interactable = false;
-            _canvasGroup.DOFade(1,1f).SetEase(Ease.InOutSine).OnComplete(() => _canvasGroup.interactable = true);
             _homeButton.onClick.AddListener(OnHomeButtonClick);
-            _restartButton.onClick.AddListener(OnRestartButtonClick);
+            _restartButton.onClick.AddListener(() => OnRestart.Invoke());
+        }
+
+        public override void Show(Action onComplete)
+        {
+            _canvasGroup.interactable = false;
+            _canvasGroup.DOFade(1, 1f).From(0).SetEase(Ease.InOutSine).OnComplete(() => 
+            {
+                _canvasGroup.interactable = true; 
+                onComplete(); 
+            });
         }
 
         private void OnHomeButtonClick()
         {
             SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-        }
-
-        private void OnRestartButtonClick()
-        {
-            OnRestart.Invoke();
         }
     }
 }
