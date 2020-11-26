@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace FizerFox.Meta
 {
-	public class SongScrollView : MonoBehaviour
+	public class SongView : MonoBehaviour
 	{
 		[SerializeField] private TextMeshProUGUI _titleText;
 		[SerializeField] private TextMeshProUGUI _authorText;
@@ -17,18 +17,20 @@ namespace FizerFox.Meta
 
 		private AudioClip _audioPreview;
 
+		public int Id { get; set; }
+
 		public void SetTitle(string title) => _titleText.text = title;
 		public void SetAuthor(string author) => _authorText.text = author;
 		public void SetCurrentPoints(int points) => _currentPoints.text = points.ToString();
 		public void SetProgress(int progress) => _starProgress.text = progress.ToString();
 		public void SetDifficulty(SongDifficulty difficulty) => _difficultyText.text = difficulty.ToString();
 		public void SetAudioPreview(AudioClip preview) => _audioPreview = preview;
+
 		private void OnPlayButtonClicked() => SceneManager.LoadScene("Game", LoadSceneMode.Single);
 
 		private void Start()
 		{
 			_playButton.onClick.AddListener(OnPlayButtonClicked);
 		}
-
 	}
 }

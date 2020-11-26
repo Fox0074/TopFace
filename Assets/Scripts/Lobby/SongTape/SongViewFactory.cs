@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace FizerFox.Meta
 {
-	public class SongScrollFactory : MonoBehaviour
+	public class SongViewFactory : MonoBehaviour
 	{
-		[SerializeField] private SongScrollView _songScrollViewPrefab;
+		[SerializeField] private SongView _songScrollViewPrefab;
 
-		public SongScrollView Create(SongScrollModel model)
+		public SongView Create(SongScrollModel model)
 		{
 			var songTapeView = Instantiate(_songScrollViewPrefab);
+			songTapeView.Id = model.Id;
 			songTapeView.SetTitle(model.Title);
 			songTapeView.SetAuthor(model.Author);
 			songTapeView.SetCurrentPoints(model.CurrentPoints);

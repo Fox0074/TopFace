@@ -1,56 +1,65 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace FizerFox.Meta
 {
 	// TODO scrolls manager
 	public class SongScrollController : MonoBehaviour
 	{
-		[SerializeField]
-		private Transform _songViewParent;
+		[SerializeField] private Transform _songViewParent;
+		[SerializeField] private SongViewFactory _songsFactory;
 
-		private List<SongScrollView> _songViews = new List<SongScrollView>(); // TODO remove me?
-		private SongScrollFactory _songsFactory;
+		private List<SongView> _views = null;
+		private bool _needCache = false;
 
-		public void AddSong(SongScrollModel model)
+		private Func<SongScrollModel, bool> _filter;
+
+		public void EnableCache()
 		{
+			_needCache = true;
+			_views = new List<SongView>();
+		}
+
+		public void Select()
+		{
+			gameObject.SetActive(true);
+		}
+
+		public void Unselect()
+		{
+			gameObject.SetActive(false);
+		}
+
+		public void SetFilter(Func<SongScrollModel, bool> filter)
+		{
+			_filter = filter;
+		}
+
+		public void TryAddSong(SongScrollModel model)
+		{
+			if (!CanAdd(model))
+				return;
+
 			var view = _songsFactory.Create(model);
-			_songViews.Add(view);
 			view.transform.parent = _songViewParent;
+
+			if (_needCache)
+				_views.Add(view);
 		}
 
-		private void Start()
+		public void RemoveSong(int id)
 		{
-			_songsFactory = GetComponent<SongScrollFactory>();
+			if (!_needCache)
+				return;
 
-			// REMOVE ME
-			AddSong(new SongScrollModel
-			{
-				Title = "Baby Shark",
-				Author = "Author",
-				CurrentPoints = 0,
-				Progress = 0,
-				Difficulty = SongDifficulty.Easy,
-				AudioPreview = Resources.Load<AudioClip>("BabyShark")
-		});
+			var selectedView = _views.FirstOrDefault((SongView view) => view.Id == id);
 
-			AddSong(new SongScrollModel
-			{
-				Title = "I'm song title",
-				Author = "Author",
-				CurrentPoints = 0,
-				Progress = 0,
-				Difficulty = SongDifficulty.Easy,
-			});
-
-			AddSong(new SongScrollModel
-			{
-				Title = "I'm song title2",
-				Author = "Author2",
-				CurrentPoints = 3,
-				Progress = 1,
-				Difficulty = SongDifficulty.Hard,
-			});
+			if (selectedView != null)
+				selectedView.transform.parent = null;
 		}
+
+		private bool CanAdd(SongScrollModel model) => _filter(model);
 	}
 }

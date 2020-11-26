@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 3364759858398546277}
   - component: {fileID: 3364759858398546279}
   - component: {fileID: 3364759858398546278}
-  - component: {fileID: 1340360842}
+  - component: {fileID: 4323828222151275148}
   m_Layer: 5
   m_Name: SongView
   m_TagString: Untagged
@@ -602,7 +602,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1340360842
+--- !u!114 &4323828222151275148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
