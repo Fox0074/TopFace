@@ -74,7 +74,7 @@ namespace HappyGames.Purchasing
                 //     serverProduct.LocalizedPrice
                 // );
 
-                ProductDescription productDescription;
+                //ProductDescription productDescription;
 
                 // if (transaction != null)
                 // {

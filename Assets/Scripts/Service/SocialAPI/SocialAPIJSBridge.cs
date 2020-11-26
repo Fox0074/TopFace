@@ -132,14 +132,14 @@ namespace HappyGames.SocialAPI
 
         public void GetUserFriends()
         {
-            List<VkUserData> testData = new List<VkUserData>();
-            testData.Add(new VkUserData() {
-                    id = "38805122",
-                    first_name = "Эмиль",
-                    last_name = "Якупов",
-                    photo_200 = "https://sun9-4.userapi.com/c850732/v850732160/4d59f/ACnwEbGKStc.jpg?ava=1"
-                    });
-            Manager.OnUserFriendsLoadingFailed(JsonConvert.SerializeObject(testData.ToArray()));
+            //List<VkUserData> testData = new List<VkUserData>();
+            //testData.Add(new VkUserData() {
+            //        id = "38805122",
+            //        first_name = "Эмиль",
+            //        last_name = "Якупов",
+            //        photo_200 = "https://sun9-4.userapi.com/c850732/v850732160/4d59f/ACnwEbGKStc.jpg?ava=1"
+            //        });
+            //Manager.OnUserFriendsLoadingFailed(JsonConvert.SerializeObject(testData.ToArray()));
         }
 
         public void LoadUserProfile()
