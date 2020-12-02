@@ -83,11 +83,19 @@ namespace FizerFox.Game
         private IEnumerator PlaySongRoutine()
         {
             float lastPoint = 0;
+            int counter = 0;
             foreach (var point in _songModel)
             {
                 yield return new WaitForSeconds(point.Key - lastPoint);
                 lastPoint = point.Key;
                 InsertBlock(point.Value, point.Type);
+
+                if (counter == 40)
+                {
+                    _signalBus.Fire(new SwitshBackGroundSignal() { SpriteName = "GameBackGreen" });
+                }
+
+                counter++;
             }
         }
 

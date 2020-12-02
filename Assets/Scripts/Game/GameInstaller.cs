@@ -15,6 +15,7 @@ namespace FizerFox.Game
             Container.Bind<SwitchToGameCommand>().AsSingle();
 
             //signals
+            Container.DeclareSignal<SwitshBackGroundSignal>();
             Container.BindSignal<SceneStartSignal>().ToMethod<GameSceneStartCommand>(x => x.Execute).From(x => x.AsCached());
 
         }

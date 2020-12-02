@@ -18,14 +18,14 @@ namespace FizerFox.Game
         {
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            if (_sceneOptions == null)
-                throw new Exception("Missing required scene arguments");
+            //if (_sceneOptions == null)
+            //    throw new Exception("Missing required scene arguments");
 
-            if (_sceneOptions.AudioClip == null)
-                throw new Exception("Missing required scene argument: AudioPreview");
+            //if (_sceneOptions.AudioClip == null)
+            //    throw new Exception("Missing required scene argument: AudioPreview");
 
-            if (_sceneOptions.Title == null)
-                throw new Exception("Missing required scene argument: Title");
+            //if (_sceneOptions.Title == null)
+            //    throw new Exception("Missing required scene argument: Title");
 
             _game.Level = _sceneOptions;
         }
