@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FizerFox.Editor
@@ -19,11 +20,11 @@ namespace FizerFox.Editor
         private TimeLineStamp _timeLineStamp;
 
         private List<TimeLineStamp> _stamps = new List<TimeLineStamp>();
-        private float _length;
+        private Dictionary<Vector2, float> _stampsData = new Dictionary<Vector2, float>();
 
-        public void Initialize(float length)
+        public void Initialize(Dictionary<Vector2,float> stampsData)
         {
-            _length = length;
+            _stampsData = stampsData;
             StartTimeLineUpdate += UpdateState;
 
             StartCoroutine(InitializeRoutine());
@@ -33,11 +34,11 @@ namespace FizerFox.Editor
         {
             yield return null;
 
-            for (int i = 0; i < _countStamps; i++)
+            foreach (var stampData in _stampsData)
             {
                 var newStamp = Instantiate(_timeLineStamp, _timeLine);
-                newStamp.SetText(i * (_length / _countStamps));
-                newStamp.transform.localPosition = new Vector3(i * (_timeLine.rect.size.x / _countStamps), 0, 0);
+                newStamp.SetText(stampData.Value);
+                newStamp.transform.localPosition = stampData.Key;
 
                 _stamps.Add(newStamp);
             }
@@ -45,11 +46,20 @@ namespace FizerFox.Editor
 
         private void UpdateState()
         {
-            foreach(var stamp in _stamps)
+            if (_stampsData.Count == _stamps.Count)
             {
-                var index = _stamps.IndexOf(stamp);
-                stamp.SetText(index * (_length / _countStamps));
-                stamp.transform.localPosition = new Vector3(index * (_timeLine.rect.size.x / _countStamps), 0, 0);
+                foreach (var stamp in _stamps)
+                {
+                    var index = _stamps.IndexOf(stamp);
+                    var stampData = _stampsData.ElementAt(index);
+                    stamp.SetText(stampData.Value);
+                    stamp.transform.localPosition = stampData.Key;
+                }
+            }
+            else
+            {
+                _stamps.ForEach(x => Destroy(x));
+                StartCoroutine(InitializeRoutine());
             }
         }
     }
