@@ -164,6 +164,8 @@ GameObject:
   - component: {fileID: 4362122787837169647}
   - component: {fileID: 4362122787837169646}
   - component: {fileID: 4362122787837169649}
+  - component: {fileID: 7654207076741353656}
+  - component: {fileID: 8829833469283666029}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -259,3 +261,28 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7654207076741353656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4362122787837169651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6bd3bcd8894aa0469d4bb9e480a6eeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _songViewParent: {fileID: 4362122787334467274}
+--- !u!114 &8829833469283666029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4362122787837169651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01c74281d9e0cb429f5ab8824b8c36c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

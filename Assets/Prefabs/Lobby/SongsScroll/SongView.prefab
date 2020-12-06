@@ -1396,6 +1396,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 7354439374521776691}
   _authorText: {fileID: 7354439373724033078}
+  _currentPointsText: {fileID: 7354439373550046826}
+  _progressText: {fileID: 7354439374603528559}
+  _stageText: {fileID: 0}
+  _difficultyText: {fileID: 7354439375172230747}
 --- !u!114 &2308039550852959842
 MonoBehaviour:
   m_ObjectHideFlags: 0

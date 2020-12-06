@@ -12,7 +12,7 @@ namespace FizerFox.Meta
 		{
 			_signalBus.Subscribe<AddScrollSignal>((command) =>
 			{
-				View.AddTab(_factory.Create(command.TabName).transform);
+				View.AddTab(_factory.Create(command.Data).transform);
 			});
 		}
 	}

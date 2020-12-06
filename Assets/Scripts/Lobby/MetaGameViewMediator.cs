@@ -7,105 +7,123 @@ using Zenject;
 
 namespace FizerFox.Meta
 {
-    public class MetaGameViewMediator : Mediator<MetaGameView>
-    {
-        //[Inject]
-        //private MetaGame _metaGame;
+	public class MetaGameViewMediator : Mediator<MetaGameView>
+	{
+		//[Inject]
+		//private MetaGame _metaGame;
 
-        //[Inject]
-        //private Player _player;
+		//[Inject]
+		//private Player _player;
 
-        //[Inject]
-        //private ApplicationSettings _settings;
+		//[Inject]
+		//private ApplicationSettings _settings;
 
-        [Inject]
-        private SignalBus _signalBus;
+		[Inject]
+		private SignalBus _signalBus;
 
-        private static int _lastCrownEventStage;
-        private bool _sceneAppeared;
+		[Inject]
+		private InitializeScrollCommand _initializeScrollCommand;
 
-        public override void OnRegister()
-        {
-            _signalBus.Subscribe<SceneAppearSignal>(OnSceneAppear);
-            View.Initialize();
-        }
+		[Inject]
+		private InitializeSongsCommand _initializeSongsCommand;
 
-        public override void OnRemove()
-        {
-            _signalBus.Unsubscribe<SceneAppearSignal>(OnSceneAppear);
-        }
+		private static int _lastCrownEventStage;
+		private bool _sceneAppeared;
 
-        private void OnSceneAppear()
-        {
-            _sceneAppeared = true;
+		public override void OnRegister()
+		{
+			_signalBus.Subscribe<SceneAppearSignal>(OnSceneAppear);
+			View.Initialize();
+			StartCoroutine(Initialize());
+		}
 
-            if (TryShowGameWindows())
-                return;
-        }
+		public override void OnRemove()
+		{
+			_signalBus.Unsubscribe<SceneAppearSignal>(OnSceneAppear);
+		}
 
-        private bool TryShowGameWindows()
-        {
-            var windowsStack = GetGameWindows().ToArray();
+		private IEnumerator Initialize()
+		{
+			yield return null; // wait for scroll script initialize
+			_initializeScrollCommand.Execute();
 
-            for (var i = 0; i < windowsStack.Length; i++)
-            {
-                var item = windowsStack[i];
-                item.Value.Secondary = true;
-                item.Value.Stacked = i < (windowsStack.Length - 1);
-                item.Value.WaitForAnimations = true;
-                _signalBus.Fire<PushWindowSignal>(new PushWindowSignal(item.Key, item.Value));
-            }
+			yield return null; // wait for songs scripts initialization
+			_initializeSongsCommand.Execute();
 
-            return windowsStack.Length > 0;
-        }
+			_signalBus.Fire(new SelectSongScrollSignal { TabIndex = 0 });
+		}
 
-        // WARN: не стоит тут использовать WindowOptions.Empty
-        private IEnumerable<KeyValuePair<Type, WindowOptions>> GetGameWindows()
-        {
-            //    if (_player.DailyBonusExist())
-            //    {
-            //        //_player.TryBreakDailyBonus();
+		private void OnSceneAppear()
+		{
+			_sceneAppeared = true;
 
-            //        yield return new KeyValuePair<Type, WindowOptions>(
-            //            typeof(DailyBonusWindow),
-            //            new DailyBonusWindowOptions()
-            //            {
-            //                DailyBonuses = _player.GetDailyBonuses(),
-            //                CurrentDay = _player.DailyBonusCurrentDay
-            //            }
-            //        );
-            //    }
+			if (TryShowGameWindows())
+				return;
+		}
+
+		private bool TryShowGameWindows()
+		{
+			var windowsStack = GetGameWindows().ToArray();
+
+			for (var i = 0; i < windowsStack.Length; i++)
+			{
+				var item = windowsStack[i];
+				item.Value.Secondary = true;
+				item.Value.Stacked = i < (windowsStack.Length - 1);
+				item.Value.WaitForAnimations = true;
+				_signalBus.Fire<PushWindowSignal>(new PushWindowSignal(item.Key, item.Value));
+			}
+
+			return windowsStack.Length > 0;
+		}
+
+		// WARN: не стоит тут использовать WindowOptions.Empty
+		private IEnumerable<KeyValuePair<Type, WindowOptions>> GetGameWindows()
+		{
+			//    if (_player.DailyBonusExist())
+			//    {
+			//        //_player.TryBreakDailyBonus();
+
+			//        yield return new KeyValuePair<Type, WindowOptions>(
+			//            typeof(DailyBonusWindow),
+			//            new DailyBonusWindowOptions()
+			//            {
+			//                DailyBonuses = _player.GetDailyBonuses(),
+			//                CurrentDay = _player.DailyBonusCurrentDay
+			//            }
+			//        );
+			//    }
 
 
-            if (false)
-            {
-                yield return new KeyValuePair<Type, WindowOptions>();
-            }
-        }
+			if (false)
+			{
+				yield return new KeyValuePair<Type, WindowOptions>();
+			}
+		}
 
-        private void OnHardCurrencyLack()
-        {
+		private void OnHardCurrencyLack()
+		{
 
-        }
+		}
 
-        private void OnHealthLack()
-        {
+		private void OnHealthLack()
+		{
 
-        }
+		}
 
-        private void OnNetworkLack()
-        {
+		private void OnNetworkLack()
+		{
 
-        }
+		}
 
-        private void OnLevelFetchingFinished()
-        {
+		private void OnLevelFetchingFinished()
+		{
 
-        }
+		}
 
-        private void OnLevelFetchingFailed()
-        {
+		private void OnLevelFetchingFailed()
+		{
 
-        }
-    }
+		}
+	}
 }

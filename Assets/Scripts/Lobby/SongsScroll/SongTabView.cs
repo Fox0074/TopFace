@@ -8,27 +8,27 @@ namespace FizerFox.Meta
 {
 	public class SongTabView : MonoBehaviour
 	{
-		private int _tabIndex = 0;
 		[SerializeField] private Button _button;
 		[SerializeField] private TextMeshProUGUI _text;
 
 		[Inject] private SignalBus _signalBus;
-		[Inject] private ScrollData _scrollData;
+
+		private int _scrollIndex = 0;
 
 		[Inject]
-		public void Construct(string text)
+		public void Construct(ScrollData data)
 		{
-			_text.text = text;
-			_tabIndex = _scrollData.MaxTabIndex;
+			_text.text = data.TabName;
+			_scrollIndex = data.ScrollIndex;
 			_button.onClick.AddListener(OnClick);
 		}
 
 		private void OnClick()
 		{
-			_signalBus.Fire(new SelectSongScrollSignal { TabIndex = _tabIndex });
+			_signalBus.Fire(new SelectSongScrollSignal { TabIndex = _scrollIndex });
 		}
 
-		public class Factory : PlaceholderFactory<string, SongTabView>
+		public class Factory : PlaceholderFactory<ScrollData, SongTabView>
 		{ }
 	}
 }

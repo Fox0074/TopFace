@@ -3,7 +3,14 @@
 namespace FizerFox.Meta
 {
 	public class LikeSongSignal
-	{ }
+	{
+		public SongData Data { get; set; }
+	}
+
+	public class UnlikeSongSignal
+	{
+		public SongData Data { get; set; }
+	}
 
 	public class SelectSongScrollSignal
 	{
@@ -12,12 +19,11 @@ namespace FizerFox.Meta
 
 	public class AddScrollSignal
 	{
-		public string TabName { get; set; }
-		public int TabIndex { get; set; }
+		public ScrollData Data { get; set; }
+	}
 
-
-		public AddScrollSignal()
-		{
-		}
+	public class AddSongSignal
+	{
+		public SongData Data { get; set; }
 	}
 }
