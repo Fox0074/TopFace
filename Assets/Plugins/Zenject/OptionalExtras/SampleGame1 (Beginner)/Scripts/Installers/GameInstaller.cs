@@ -10,22 +10,22 @@ namespace Zenject.Asteroids
 
         public override void InstallBindings()
         {
-            // In this example there is only one 'installer' but in larger projects you
-            // will likely end up with many different re-usable installers
-            // that you'll want to use in several different scenes
-            //
-            // There are several ways to do this.  You can store your installer as a prefab,
-            // a scriptable object, a component within the scene, etc.  Or, if you don't
-            // need your installer to be a MonoBehaviour then you can just simply call
-            // Container.Install
-            //
-            // See here for more details:
-            // https://github.com/modesttree/zenject#installers
-            //
-            //Container.Install<MyOtherInstaller>();
+			// In this example there is only one 'installer' but in larger projects you
+			// will likely end up with many different re-usable installers
+			// that you'll want to use in several different scenes
+			//
+			// There are several ways to do this.  You can store your installer as a prefab,
+			// a scriptable object, a component within the scene, etc.  Or, if you don't
+			// need your installer to be a MonoBehaviour then you can just simply call
+			// Container.Install
+			//
+			// See here for more details:
+			// https://github.com/modesttree/zenject#installers
+			//
+			//Container.Install<MyOtherInstaller>();
 
-            // Install the main game
-            InstallAsteroids();
+			// Install the main game
+			InstallAsteroids();
             InstallShip();
             InstallMisc();
             InstallSignals();

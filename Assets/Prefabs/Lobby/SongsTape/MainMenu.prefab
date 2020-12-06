@@ -200,8 +200,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3150632302309695581}
-  - component: {fileID: 3150632302309695580}
-  - component: {fileID: 1583193627021803622}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -230,34 +228,3 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &3150632302309695580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3150632302309695582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff0d1dc26d67e841ab8bc68c93026d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scrollsFactory: {fileID: 1583193627021803622}
-  _tabParent: {fileID: 3150632301577786309}
-  _scrollParent: {fileID: 189501864198876501}
-  _tabPrefab: {fileID: 5959420320728014396, guid: ec1e1416d7101d84797ada1317b11aa2,
-    type: 3}
---- !u!114 &1583193627021803622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3150632302309695582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b9028981ef00cf4c96d912bf9c26b2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scrollPrefab: {fileID: 827173631192145593, guid: f54200178a771dc499faa5e069e8382a,
-    type: 3}

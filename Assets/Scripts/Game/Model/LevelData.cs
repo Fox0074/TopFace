@@ -2,8 +2,8 @@
 
 namespace FizerFox
 {
-    public class LevelData
-    {
+	public class LevelData
+	{
 		public string Title { get; set; }
 		public string Author { get; set; }
 		public SongDifficulty Difficulty { get; set; }
