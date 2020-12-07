@@ -19,7 +19,6 @@ namespace FizerFox.Editor
         {
             _time = seconds;
             TimeSpan ts = TimeSpan.FromSeconds(seconds);
-
             _timeText.text = String.Format("{0:00}:{1:00}", ts.TotalSeconds, ts.Milliseconds / 10);
 
         }

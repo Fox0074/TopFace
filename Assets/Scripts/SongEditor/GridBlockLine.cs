@@ -6,36 +6,36 @@ namespace FizerFox.Editor
 {
     public class GridBlockLine : MonoBehaviour
     {
+        public float StartTime { get; set; }
+        public float Speed { get; set; } = 1f;
+
+        [SerializeField]
+        private RectTransform _lineRect;
+
         [SerializeField]
         private Button _topSelector;
 
         [SerializeField]
-        private List<Button> _buttons = new List<Button>();
+        private List<GridBlock> _blocks = new List<GridBlock>();
+
+        public void Initialize(float startTime)
+        {
+            StartTime = startTime;
+        }
+
+        public Vector2 GetPosition()
+        {
+            return _lineRect.localPosition;
+        }
 
         private void Awake()
         {
-            _buttons.ForEach(x => x.onClick.AddListener(() => OnButtonClick(x.gameObject)));
+            _blocks.ForEach(x => x.OnClick += OnButtonClick);
         }
 
-        private void OnButtonClick(GameObject block)
+        private void OnButtonClick(GridBlock block)
         {
-            var image = block.GetComponent<Image>();
-
-            if (image)
-            {
-                switch (EditorManager.SelectedBlockType)
-                {
-                    case BlockTypes.Empty:
-                        image.color = Color.white;
-                        break;
-                    case BlockTypes.Simple:
-                        image.color = Color.red;
-                        break;
-                    case BlockTypes.Long:
-                        image.color = Color.yellow;
-                        break;
-                }
-            }
+            block.SetType(EditorManager.SelectedBlockType);
         }
     }
 }
