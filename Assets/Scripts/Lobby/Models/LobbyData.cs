@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace FizerFox.Meta
 {
@@ -6,5 +7,7 @@ namespace FizerFox.Meta
 	{
 		public int CurrentStage;
 		public List<SongData> SongDatas = new List<SongData>();
+
+		public SongData GetSongData(SongId id) => SongDatas.FirstOrDefault((data) => data.Id == id);
 	}
 }

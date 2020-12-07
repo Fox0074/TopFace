@@ -2,6 +2,7 @@
 using System.Collections;
 using Zenject;
 using TMPro;
+using UnityEngine.UI;
 
 namespace FizerFox.Meta
 {
@@ -13,7 +14,11 @@ namespace FizerFox.Meta
 		[SerializeField] private TextMeshProUGUI _progressText;
 		[SerializeField] private TextMeshProUGUI _difficultyText;
 
-		private int _id;
+		[SerializeField] private Button _likeButton;
+
+		[Inject] private LikeSongCommand _likeSongCommand;
+
+		private SongId _id;
 
 		[Inject]
 		public void Construct(SongData data)
@@ -25,6 +30,18 @@ namespace FizerFox.Meta
 			_progressText.text = data.Progress.ToString();
 			//_stageText.text = data.Stage.ToString();
 			_difficultyText.text = data.Difficulty.ToString();
+
+			_likeButton.onClick.AddListener(OnLikeButton);
+		}
+
+		public void Dispose()
+		{
+			Destroy(gameObject); // TODO ?
+		}
+
+		private void OnLikeButton()
+		{
+			_likeSongCommand.Execute(_id);
 		}
 
 		public class Factory : PlaceholderFactory<SongData, SongView>

@@ -9,6 +9,7 @@ namespace FizerFox.Meta
 	{
 		[SerializeField] private SongTabView _songTabViewPrefab;
 		[SerializeField] private SongScrollView _songScrollViewPrefab;
+		[SerializeField] private SongScrollView _songScrollViewLikedPrefab;
 		[SerializeField] private SongView _songViewPrefab;
 
 		public override void InstallBindings()
@@ -22,6 +23,7 @@ namespace FizerFox.Meta
 			//commands
 			Container.Bind<InitializeScrollCommand>().AsSingle();
 			Container.Bind<InitializeSongsCommand>().AsSingle();
+			Container.Bind<LikeSongCommand>().AsSingle();
 
 			//signals
 			Container.DeclareSignal<SelectSongScrollSignal>();
@@ -33,8 +35,11 @@ namespace FizerFox.Meta
 			Container.BindFactory<ScrollData, SongTabView, SongTabView.Factory>()
 				.FromComponentInNewPrefab(_songTabViewPrefab);
 
-			Container.BindFactory<ScrollData, SongScrollView, SongScrollView.Factory>()
+			Container.BindFactory<ScrollData, SongScrollView, SongScrollView.DefaultFactory>()
 				.FromComponentInNewPrefab(_songScrollViewPrefab);
+
+			Container.BindFactory<ScrollData, SongScrollView, SongScrollView.LikedFactory>()
+				.FromComponentInNewPrefab(_songScrollViewLikedPrefab);
 
 			Container.BindFactory<SongData, SongView, SongView.Factory>()
 				.FromComponentInNewPrefab(_songViewPrefab);

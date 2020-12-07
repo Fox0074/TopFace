@@ -4,7 +4,7 @@ namespace FizerFox.Meta
 {
 	public class SongData
 	{
-		public int Id { get; set; } // TODO Enum
+		public SongId Id { get; set; }
 		public string Title { get; set; }
 		public string Author { get; set; }
 		public int CurrentPoints { get; set; }

@@ -12,7 +12,7 @@ namespace FizerFox.Meta
 		{
 			AddSong(new SongData
 			{
-				Id = 0,
+				Id = (SongId) 0,
 				Title = "Title1",
 				Author = "Author1",
 				CurrentPoints = 0,
@@ -24,7 +24,7 @@ namespace FizerFox.Meta
 
 			AddSong(new SongData
 			{
-				Id = 1,
+				Id = (SongId) 1,
 				Title = "Title2",
 				Author = "Author2",
 				CurrentPoints = 0,
@@ -36,7 +36,7 @@ namespace FizerFox.Meta
 
 			AddSong(new SongData
 			{
-				Id = 2,
+				Id = (SongId) 2,
 				Title = "Title3",
 				Author = "Author3",
 				CurrentPoints = 0,
@@ -48,7 +48,7 @@ namespace FizerFox.Meta
 
 			AddSong(new SongData
 			{
-				Id = 3,
+				Id = (SongId) 3,
 				Title = "Title4",
 				Author = "Author4",
 				CurrentPoints = 1,
@@ -64,6 +64,5 @@ namespace FizerFox.Meta
 			_lobbyData.SongDatas.Add(songData);
 			_signalBus.Fire(new AddSongSignal { Data = songData });
 		}
-
 	}
 }

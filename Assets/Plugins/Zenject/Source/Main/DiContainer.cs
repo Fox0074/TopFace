@@ -1037,7 +1037,8 @@ namespace Zenject
                         // than always requiring that they explicitly mark their list types as optional
                         subContext.Optional = true;
 
-                        return ResolveAll(subContext);
+                    
+						return ResolveAll(subContext);
                     }
 
                     if (context.Optional)

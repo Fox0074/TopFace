@@ -19,6 +19,7 @@ namespace FizerFox.Meta
 			{
 				TabName = "Liked",
 				ScrollIndex = _scrollData.MaxTabIndex++,
+				Type = ScrollType.Liked,
 				SongsFilter = (data) => data.IsLiked
 			}});
 			_signalBus.Fire(new AddScrollSignal() { Data = new ScrollData() 

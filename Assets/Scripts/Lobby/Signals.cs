@@ -7,11 +7,6 @@ namespace FizerFox.Meta
 		public SongData Data { get; set; }
 	}
 
-	public class UnlikeSongSignal
-	{
-		public SongData Data { get; set; }
-	}
-
 	public class SelectSongScrollSignal
 	{
 		public int TabIndex { get; set; }

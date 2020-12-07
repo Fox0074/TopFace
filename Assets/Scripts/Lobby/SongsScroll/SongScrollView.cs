@@ -3,6 +3,7 @@ using System.Collections;
 using FizerFox.Meta;
 using Zenject;
 using System;
+using System.Collections.Generic;
 
 namespace FizerFox.Meta
 {
@@ -13,6 +14,8 @@ namespace FizerFox.Meta
 		private int _scrollIndex = 0;
 		private Func<SongData, bool> _songFilter;
 
+		private Dictionary<SongId, SongView> _views = new Dictionary<SongId, SongView>();
+
 		[Inject]
 		public void Construct(ScrollData data)
 		{
@@ -22,11 +25,27 @@ namespace FizerFox.Meta
 
 		public void Toggle(SelectSongScrollSignal signal) => gameObject.SetActive(_scrollIndex == signal.TabIndex);
 
-		public bool CanAdd(SongData data) => _songFilter.Invoke(data);
+		public bool CanAdd(SongData data) => _songFilter.Invoke(data) && !_views.ContainsKey(data.Id);
 
-		public void AddSong(SongView songView) => songView.transform.parent = _songViewParent;
+		public void RemoveSong(SongId id)
+		{
+			if (!_views.ContainsKey(id))
+				return;
 
-		public class Factory : PlaceholderFactory<ScrollData, SongScrollView>
+			_views[id].Dispose();
+			_views.Remove(id);
+		}
+
+		public void AddSong(SongId id, SongView songView)
+		{
+			_views.Add(id, songView);
+			songView.transform.parent = _songViewParent;
+		}
+
+		public class DefaultFactory : PlaceholderFactory<ScrollData, SongScrollView>
+		{ }
+
+		public class LikedFactory : PlaceholderFactory<ScrollData, SongScrollView>
 		{ }
 	}
 }
