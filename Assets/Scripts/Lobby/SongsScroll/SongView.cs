@@ -15,8 +15,12 @@ namespace FizerFox.Meta
 		[SerializeField] private TextMeshProUGUI _difficultyText;
 
 		[SerializeField] private Button _likeButton;
+		[SerializeField] private Button _previewButton;
 
 		[Inject] private LikeSongCommand _likeSongCommand;
+
+		[Inject] private SignalBus _signalBus; // TODO remove me
+		[Inject] private LobbyData _lobbyData; //
 
 		private SongId _id;
 
@@ -32,6 +36,7 @@ namespace FizerFox.Meta
 			_difficultyText.text = data.Difficulty.ToString();
 
 			_likeButton.onClick.AddListener(OnLikeButton);
+			_previewButton.onClick.AddListener(OnPreviewButton);
 		}
 
 		public void Dispose()
@@ -42,6 +47,11 @@ namespace FizerFox.Meta
 		private void OnLikeButton()
 		{
 			_likeSongCommand.Execute(_id);
+		}
+
+		private void OnPreviewButton()
+		{
+			_signalBus.Fire(new PreviewSongPlaySignal { Data = _lobbyData.GetSongData(_id) });
 		}
 
 		public class Factory : PlaceholderFactory<SongData, SongView>

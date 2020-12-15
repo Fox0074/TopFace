@@ -25,10 +25,10 @@ namespace FizerFox.Meta
 			switch (signal.Data.Type)
 			{
 				case ScrollType.Default:
-					View.AddScroll(_defaultFactory.Create(signal.Data).transform);
+					View.AddScroll(_defaultFactory.Create(signal.Data));
 					break;
 				case ScrollType.Liked:
-					View.AddScroll(_likedFactory.Create(signal.Data).transform);
+					View.AddScroll(_likedFactory.Create(signal.Data));
 					break;
 			}
 

@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _songViewParent: {fileID: 4362122787334467274}
+  _rectTransform: {fileID: 4362122787837169648}
 --- !u!114 &8829833469283666029
 MonoBehaviour:
   m_ObjectHideFlags: 0

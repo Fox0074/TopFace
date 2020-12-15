@@ -13,6 +13,7 @@ namespace FizerFox.Meta
 		public bool IsLiked { get; set; }
 		public SongDifficulty Difficulty { get; set; }
 		public AudioClip AudioPreview { get; set; }
+		public float StartPreviewFromSeconds { get; set; }
 
 		public SongData Clone()
 		{

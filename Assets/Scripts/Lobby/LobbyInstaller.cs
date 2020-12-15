@@ -30,6 +30,7 @@ namespace FizerFox.Meta
 			Container.DeclareSignal<LikeSongSignal>();
 			Container.DeclareSignal<AddScrollSignal>();
 			Container.DeclareSignal<AddSongSignal>();
+			Container.DeclareSignal<PreviewSongPlaySignal>();
 
 			// factories
 			Container.BindFactory<ScrollData, SongTabView, SongTabView.Factory>()

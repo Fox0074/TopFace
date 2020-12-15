@@ -21,4 +21,9 @@ namespace FizerFox.Meta
 	{
 		public SongData Data { get; set; }
 	}
+
+	public class PreviewSongPlaySignal
+	{
+		public SongData Data { get; set; }
+	}
 }

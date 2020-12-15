@@ -10,6 +10,7 @@ namespace FizerFox.Meta
 	public class SongScrollView : MonoBehaviour
 	{
 		[SerializeField] private Transform _songViewParent;
+		private RectTransform _rectTransform;
 
 		private int _scrollIndex = 0;
 		private Func<SongData, bool> _songFilter;
@@ -21,6 +22,13 @@ namespace FizerFox.Meta
 		{
 			_scrollIndex = data.ScrollIndex;
 			_songFilter = data.SongsFilter;
+			_rectTransform = GetComponent<RectTransform>();
+		}
+
+		public void AfterAddOnScene()
+		{
+			_rectTransform.offsetMax = new Vector2();
+			_rectTransform.offsetMin = new Vector2();
 		}
 
 		public void Toggle(SelectSongScrollSignal signal) => gameObject.SetActive(_scrollIndex == signal.TabIndex);

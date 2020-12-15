@@ -6,9 +6,10 @@ namespace FizerFox.Meta
 {
 	public class SongScrollGroupView : MonoBehaviour
 	{
-		public void AddScroll(Transform transform)
+		public void AddScroll(SongScrollView view)
 		{
-			transform.parent = this.transform;
+			view.transform.parent = transform;
+			view.AfterAddOnScene();
 		}
 
 		public class Factory : PlaceholderFactory<ScrollData, SongScrollView>

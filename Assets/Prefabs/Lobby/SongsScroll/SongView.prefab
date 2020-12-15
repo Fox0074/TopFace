@@ -1400,6 +1400,7 @@ MonoBehaviour:
   _progressText: {fileID: 7354439374603528559}
   _difficultyText: {fileID: 7354439375172230747}
   _likeButton: {fileID: 7354439374891788734}
+  _previewButton: {fileID: 7354439373907900926}
 --- !u!114 &2308039550852959842
 MonoBehaviour:
   m_ObjectHideFlags: 0
